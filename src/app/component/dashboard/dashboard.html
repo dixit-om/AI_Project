@@ -1,1 +1,113 @@
-<p>dashboard works!</p>
+<div class="dashboard">
+  <header class="top-bar">
+    <div class="top-left">
+      <div class="logo-mark">AI</div>
+      <div>
+        <h1>AI Overview</h1>
+        <p class="top-subtitle">Today’s summary of your models and activity.</p>
+      </div>
+    </div>
+    <div class="top-right">
+      <div class="search">
+        <span class="search-icon">🔍</span>
+        <input placeholder="Search models, datasets, runs…" />
+      </div>
+      <button class="top-btn">New run</button>
+      <div class="avatar">J</div>
+    </div>
+  </header>
+
+  <main class="content">
+    <section class="stats-row">
+      <article class="stat-card primary">
+        <div class="stat-header">
+          <span class="stat-label">Active models</span>
+          <span class="stat-pill">Live</span>
+        </div>
+        <div class="stat-value">12</div>
+        <p class="stat-meta">+3 added this week</p>
+      </article>
+
+      <article class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Requests / min</span>
+        </div>
+        <div class="stat-value">4.2k</div>
+        <p class="stat-meta">Stable in the last 15 minutes</p>
+      </article>
+
+      <article class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Latency (p95)</span>
+        </div>
+        <div class="stat-value">142ms</div>
+        <p class="stat-meta success">-18% vs yesterday</p>
+      </article>
+
+      <article class="stat-card">
+        <div class="stat-header">
+          <span class="stat-label">Error rate</span>
+        </div>
+        <div class="stat-value">0.4%</div>
+        <p class="stat-meta warning">Slightly above target</p>
+      </article>
+    </section>
+
+    <section class="main-grid">
+      <article class="panel traffic">
+        <div class="panel-header">
+          <h2>Traffic & performance</h2>
+          <span class="chip">Last 24 hours</span>
+        </div>
+        <div class="chart-placeholder">
+          <div class="chart-line"></div>
+          <div class="chart-grid">
+            <span></span><span></span><span></span><span></span>
+          </div>
+          <p>Integrate your favorite chart library here (e.g. ng2-charts, ECharts).</p>
+        </div>
+      </article>
+
+      <article class="panel activity">
+        <div class="panel-header">
+          <h2>Recent activity</h2>
+          <button class="ghost-btn">View all</button>
+        </div>
+        <ul class="activity-list">
+          <li>
+            <div class="dot success"></div>
+            <div>
+              <p class="title">Model `qa-assistant-v4` deployed</p>
+              <p class="subtitle">Deployed to production · 5 min ago</p>
+            </div>
+            <span class="tag">Deploy</span>
+          </li>
+          <li>
+            <div class="dot"></div>
+            <div>
+              <p class="title">Dataset `support-logs-oct` synced</p>
+              <p class="subtitle">120k new rows · 42 min ago</p>
+            </div>
+            <span class="tag neutral">Data</span>
+          </li>
+          <li>
+            <div class="dot warning"></div>
+            <div>
+              <p class="title">Elevated latency detected</p>
+              <p class="subtitle">`chat-bot-v2` · 2 hours ago</p>
+            </div>
+            <span class="tag danger">Alert</span>
+          </li>
+          <li>
+            <div class="dot"></div>
+            <div>
+              <p class="title">New collaborator added</p>
+              <p class="subtitle">Sarah joined the workspace · 3 hours ago</p>
+            </div>
+            <span class="tag neutral">Team</span>
+          </li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</div>

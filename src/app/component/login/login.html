@@ -1,1 +1,46 @@
-<p>login works!</p>
+<div class="auth-page">
+  <div class="auth-illustration">
+    <div class="brand">
+      <span class="brand-badge">AI</span>
+      <h1>Welcome back</h1>
+      <p>Sign in to continue exploring your AI dashboard.</p>
+    </div>
+  </div>
+
+  <div class="auth-card">
+    <h2>Login</h2>
+    <p class="subtitle">Enter your credentials to access your account.</p>
+
+    <form class="auth-form">
+      <div class="field">
+        <label for="email">Email</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="you@example.com"
+          required
+        />
+      </div>
+
+      <div class="field">
+        <div class="field-label-row">
+          <label for="password">Password</label>
+          <a class="link subtle" href="#">Forgot password?</a>
+        </div>
+        <input
+          id="password"
+          type="password"
+          placeholder="••••••••"
+          required
+        />
+      </div>
+
+      <button type="submit" class="primary-btn">Sign in</button>
+    </form>
+
+    <p class="meta">
+      Don’t have an account?
+      <a routerLink="/signup" class="link">Sign up</a>
+    </p>
+  </div>
+</div>
