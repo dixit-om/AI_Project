@@ -12,7 +12,7 @@
         <span class="search-icon">🔍</span>
         <input placeholder="Search models, datasets, runs…" />
       </div>
-      <button class="top-btn">New run</button>
+      <button class="top-btn" routerLink="/upload">Upload Resume</button>
       <div class="avatar">J</div>
     </div>
   </header>
@@ -54,59 +54,82 @@
     </section>
 
     <section class="main-grid">
-      <article class="panel traffic">
+      <article class="panel resumes">
         <div class="panel-header">
-          <h2>Traffic & performance</h2>
-          <span class="chip">Last 24 hours</span>
+          <h2>Your Resumes</h2>
+          <button class="ghost-btn" routerLink="/upload">+ Upload New</button>
         </div>
-        <div class="chart-placeholder">
-          <div class="chart-line"></div>
-          <div class="chart-grid">
-            <span></span><span></span><span></span><span></span>
+        @if (loading) {
+          <div class="loading-state">
+            <p>Loading resumes...</p>
           </div>
-          <p>Integrate your favorite chart library here (e.g. ng2-charts, ECharts).</p>
-        </div>
+        } @else if (resumes.length === 0) {
+          <div class="empty-state">
+            <div class="empty-icon">📄</div>
+            <h3>No resumes uploaded yet</h3>
+            <p>Upload your first resume to get AI-powered insights</p>
+            <button class="primary-action-btn" routerLink="/upload">Upload Resume</button>
+          </div>
+        } @else {
+          <div class="resumes-grid">
+            @for (resume of resumes; track resume._id) {
+              <div class="resume-card" (click)="viewAnalysis(resume._id)">
+                <div class="resume-card-header">
+                  <div class="resume-icon">📄</div>
+                  <button class="delete-btn" (click)="deleteResume(resume._id, $event)">✕</button>
+                </div>
+                <h3 class="resume-name">{{ resume.originalName }}</h3>
+                <div class="resume-score">
+                  <div class="score-circle-small" [style.border-color]="getScoreColor(resume.analysis.atsScore)">
+                    <span>{{ resume.analysis.atsScore }}</span>
+                  </div>
+                  <div class="score-info-small">
+                    <p class="score-label-small">ATS Score</p>
+                    <p class="score-status">{{ getScoreLabel(resume.analysis.atsScore) }}</p>
+                  </div>
+                </div>
+                <div class="resume-meta">
+                  <span class="meta-item">📅 {{ resume.uploadedAt | date:'short' }}</span>
+                  <span class="meta-item">💼 {{ resume.analysis.experience.years }}+ years</span>
+                </div>
+                <div class="resume-skills">
+                  @for (skill of resume.analysis.skills.slice(0, 3); track skill.name) {
+                    <span class="skill-tag">{{ skill.name }}</span>
+                  }
+                  @if (resume.analysis.skills.length > 3) {
+                    <span class="skill-tag more">+{{ resume.analysis.skills.length - 3 }} more</span>
+                  }
+                </div>
+              </div>
+            }
+          </div>
+        }
       </article>
 
       <article class="panel activity">
         <div class="panel-header">
-          <h2>Recent activity</h2>
-          <button class="ghost-btn">View all</button>
+          <h2>Quick Stats</h2>
         </div>
-        <ul class="activity-list">
-          <li>
-            <div class="dot success"></div>
-            <div>
-              <p class="title">Model `qa-assistant-v4` deployed</p>
-              <p class="subtitle">Deployed to production · 5 min ago</p>
+        @if (resumes.length > 0) {
+          <div class="quick-stats">
+            <div class="quick-stat-item">
+              <div class="quick-stat-value">{{ resumes.length }}</div>
+              <div class="quick-stat-label">Resumes Analyzed</div>
             </div>
-            <span class="tag">Deploy</span>
-          </li>
-          <li>
-            <div class="dot"></div>
-            <div>
-              <p class="title">Dataset `support-logs-oct` synced</p>
-              <p class="subtitle">120k new rows · 42 min ago</p>
+            <div class="quick-stat-item">
+              <div class="quick-stat-value">{{ getAverageScore() }}</div>
+              <div class="quick-stat-label">Avg ATS Score</div>
             </div>
-            <span class="tag neutral">Data</span>
-          </li>
-          <li>
-            <div class="dot warning"></div>
-            <div>
-              <p class="title">Elevated latency detected</p>
-              <p class="subtitle">`chat-bot-v2` · 2 hours ago</p>
+            <div class="quick-stat-item">
+              <div class="quick-stat-value">{{ getTotalSkills() }}</div>
+              <div class="quick-stat-label">Total Skills</div>
             </div>
-            <span class="tag danger">Alert</span>
-          </li>
-          <li>
-            <div class="dot"></div>
-            <div>
-              <p class="title">New collaborator added</p>
-              <p class="subtitle">Sarah joined the workspace · 3 hours ago</p>
-            </div>
-            <span class="tag neutral">Team</span>
-          </li>
-        </ul>
+          </div>
+        } @else {
+          <div class="empty-stats">
+            <p>Upload resumes to see your statistics</p>
+          </div>
+        }
       </article>
     </section>
   </main>

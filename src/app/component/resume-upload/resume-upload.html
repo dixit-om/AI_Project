@@ -1,0 +1,69 @@
+<div class="upload-page">
+  <div class="upload-container">
+    <div class="upload-header">
+      <h1>Upload Your Resume</h1>
+      <p>Get AI-powered insights about your resume, including ATS score, skills analysis, and personalized recommendations.</p>
+    </div>
+
+    <div class="upload-card">
+      <div class="upload-area" [class.dragover]="false" [class.has-file]="selectedFile">
+        <input
+          #fileInput
+          type="file"
+          accept=".pdf,.docx"
+          (change)="onFileSelected($event)"
+          style="display: none"
+        />
+        
+        @if (!selectedFile) {
+          <div class="upload-placeholder">
+            <div class="upload-icon">📄</div>
+            <h3>Drop your resume here</h3>
+            <p>or click to browse</p>
+            <button class="browse-btn" type="button" (click)="triggerFileInput()">
+              Choose File
+            </button>
+            <p class="file-hint">Supports PDF and DOCX documents (max 10MB)</p>
+          </div>
+        } @else {
+          <div class="file-selected">
+            <div class="file-info">
+              <span class="file-icon">📄</span>
+              <div>
+                <p class="file-name">{{ selectedFile.name }}</p>
+                <p class="file-size">{{ (selectedFile.size / 1024 / 1024).toFixed(2) }} MB</p>
+              </div>
+            </div>
+            <button class="remove-btn" (click)="removeFile()">✕</button>
+          </div>
+        }
+      </div>
+
+      @if (error) {
+        <div class="error-message">{{ error }}</div>
+      }
+
+      @if (isUploading) {
+        <div class="upload-progress">
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="uploadProgress"></div>
+          </div>
+          <p>Analyzing your resume... {{ uploadProgress }}%</p>
+        </div>
+      }
+
+      <button
+        class="upload-btn"
+        [disabled]="!selectedFile || isUploading"
+        (click)="uploadResume()"
+      >
+        @if (isUploading) {
+          Analyzing...
+        } @else {
+          Analyze Resume
+        }
+      </button>
+    </div>
+  </div>
+</div>
+

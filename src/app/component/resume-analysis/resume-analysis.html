@@ -1,0 +1,170 @@
+<div class="analysis-page">
+  @if (loading) {
+    <div class="loading-container">
+      <div class="spinner"></div>
+      <p>Loading analysis...</p>
+    </div>
+  } @else if (error) {
+    <div class="error-container">
+      <p>{{ error }}</p>
+      <button class="back-btn" (click)="navigateToDashboard()">Back to Dashboard</button>
+    </div>
+  } @else if (analysis) {
+    <div class="analysis-container">
+      <header class="analysis-header">
+        <div>
+          <h1>Resume Analysis</h1>
+          <p>AI-powered insights and recommendations</p>
+        </div>
+        <button class="back-btn" (click)="navigateToDashboard()">← Back to Dashboard</button>
+      </header>
+
+      <!-- ATS Score Card -->
+      <section class="score-section">
+        <div class="ats-card">
+          <div class="score-circle" [style.border-color]="getScoreColor(analysis.atsScore)">
+            <div class="score-value">{{ analysis.atsScore }}</div>
+            <div class="score-label">ATS Score</div>
+          </div>
+          <div class="score-info">
+            <h3>{{ getScoreLabel(analysis.atsScore) }}</h3>
+            <p>Your resume's compatibility with Applicant Tracking Systems</p>
+            <div class="score-bar">
+              <div class="score-fill" [style.width.%]="analysis.atsScore" [style.background]="getScoreColor(analysis.atsScore)"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Skills Analysis -->
+      <section class="skills-section">
+        <h2>Skills Analysis</h2>
+        <div class="skills-grid">
+          @for (category of ['Technical', 'Soft', 'Language', 'Other']; track category) {
+            @if (getSkillsByCategory(category).length > 0) {
+              <div class="skill-category">
+                <h3>{{ category }} Skills</h3>
+                <div class="skills-list">
+                  @for (skill of getSkillsByCategory(category); track skill.name) {
+                    <div class="skill-item">
+                      <div class="skill-header">
+                        <span class="skill-name">{{ skill.name }}</span>
+                        <span class="skill-proficiency">{{ skill.proficiency }}</span>
+                      </div>
+                      <div class="skill-relevance">
+                        <div class="relevance-bar">
+                          <div class="relevance-fill" [style.width.%]="skill.relevance"></div>
+                        </div>
+                        <span class="relevance-score">{{ skill.relevance }}% relevance</span>
+                      </div>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+          }
+        </div>
+      </section>
+
+      <!-- Strengths & Weaknesses -->
+      <section class="swot-section">
+        <div class="swot-grid">
+          <div class="swot-card strengths">
+            <h3>✅ Strengths</h3>
+            <ul>
+              @for (strength of analysis.strengths; track strength) {
+                <li>{{ strength }}</li>
+              }
+            </ul>
+          </div>
+          <div class="swot-card weaknesses">
+            <h3>⚠️ Areas for Improvement</h3>
+            <ul>
+              @for (weakness of analysis.weaknesses; track weakness) {
+                <li>{{ weakness }}</li>
+              }
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recommendations -->
+      <section class="recommendations-section">
+        <h2>💡 Recommendations</h2>
+        <div class="recommendations-list">
+          @for (rec of analysis.recommendations; track rec; let i = $index) {
+            <div class="recommendation-item">
+              <span class="rec-number">{{ i + 1 }}</span>
+              <p>{{ rec }}</p>
+            </div>
+          }
+        </div>
+      </section>
+
+      <!-- Experience & Education -->
+      <section class="details-section">
+        <div class="details-grid">
+          <div class="detail-card">
+            <h3>📊 Experience</h3>
+            <div class="detail-content">
+              <p class="detail-value">{{ analysis.experience.years }}+ years</p>
+              <div class="detail-tags">
+                @for (role of analysis.experience.roles; track role) {
+                  <span class="tag">{{ role }}</span>
+                }
+              </div>
+              <div class="detail-industries">
+                <strong>Industries:</strong>
+                @for (industry of analysis.experience.industries; track industry) {
+                  <span>{{ industry }}</span>
+                }
+              </div>
+            </div>
+          </div>
+
+          <div class="detail-card">
+            <h3>🎓 Education</h3>
+            <div class="detail-content">
+              @for (edu of analysis.education; track edu.degree) {
+                <div class="edu-item">
+                  <p class="edu-degree">{{ edu.degree }}</p>
+                  <p class="edu-institution">{{ edu.institution }}</p>
+                  <p class="edu-year">{{ edu.year }}</p>
+                </div>
+              }
+            </div>
+          </div>
+
+          @if (analysis.certifications.length > 0) {
+            <div class="detail-card">
+              <h3>🏆 Certifications</h3>
+              <div class="detail-content">
+                @for (cert of analysis.certifications; track cert) {
+                  <span class="cert-badge">{{ cert }}</span>
+                }
+              </div>
+            </div>
+          }
+
+          @if (analysis.languages.length > 0) {
+            <div class="detail-card">
+              <h3>🌐 Languages</h3>
+              <div class="detail-content">
+                @for (lang of analysis.languages; track lang) {
+                  <span class="lang-badge">{{ lang }}</span>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </section>
+
+      <!-- Summary -->
+      <section class="summary-section">
+        <h2>📝 Professional Summary</h2>
+        <p class="summary-text">{{ analysis.summary }}</p>
+      </section>
+    </div>
+  }
+</div>
+
